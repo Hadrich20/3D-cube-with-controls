@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cube with Controls</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <button id="rotateXPos">Rotate X+</button>
+        <button id="rotateXNeg">Rotate X-</button>
+        <button id="rotateYPos">Rotate Y+</button>
+        <button id="rotateYNeg">Rotate Y-</button>
+        <button id="rotateZPos">Rotate Z+</button>
+        <button id="rotateZNeg">Rotate Z-</button>
+        <button id="zoomIn">Zoom In</button>
+        <button id="zoomOut">Zoom Out</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create cube
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        // Position camera
+        camera.position.z = 5;
+
+        // Rotation and zoom variables
+        let rotationSpeed = 0.1;
+        let zoomSpeed = 0.1;
+
+        // Button functionality
+        document.getElementById('rotateXPos').addEventListener('click', () => cube.rotation.x += rotationSpeed);
+        document.getElementById('rotateXNeg').addEventListener('click', () => cube.rotation.x -= rotationSpeed);
+        document.getElementById('rotateYPos').addEventListener('click', () => cube.rotation.y += rotationSpeed);
+        document.getElementById('rotateYNeg').addEventListener('click', () => cube.rotation.y -= rotationSpeed);
+        document.getElementById('rotateZPos').addEventListener('click', () => cube.rotation.z += rotationSpeed);
+        document.getElementById('rotateZNeg').addEventListener('click', () => cube.rotation.z -= rotationSpeed);
+        document.getElementById('zoomIn').addEventListener('click', () => camera.position.z -= zoomSpeed);
+        document.getElementById('zoomOut').addEventListener('click', () => camera.position.z += zoomSpeed);
+
+        // Render loop
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+    <footer center>© 2024|Powerd By Abderrahmenh Hadrich |MSDHT| Copyright</footer>
+</body>
+
+</html>
